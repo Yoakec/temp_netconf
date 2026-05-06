@@ -1,0 +1,122 @@
+
+sysname {{ sysname }}
+#
+undo ftp server source all-interface
+undo ftp ipv6 server source all-interface
+#
+dfs-group 1
+ priority {{ dfs_priority }}
+ source ip {{ dfs_source_ip }} vpn-instance Dadlink peer {{ dfs_peer_ip }}
+ m-lag up-delay 240 auto-recovery interval 10
+ dual-active detection enhanced enable
+ dual-active detection delay 1000
+#
+device board 1 board-type CE6881-48S6CQ
+#
+drop-profile default
+#
+dcb pfc
+#
+ntp server source-interface all disable
+ntp ipv6 server source-interface all disable
+#
+m-lag forward layer-3 enhanced enable
+#
+vlan batch 200 to 203
+#
+stp bridge-address 0001-0004-0001
+stp mode rstp
+stp v-stp enable
+stp bpdu-protection
+stp tc-protection
+#
+dhcp enable
+#
+icmp name timestamp-reply send disable
+#
+telnet server disable
+telnet ipv6 server disable
+undo telnet server-source all-interface
+undo telnet ipv6 server-source all-interface
+#
+diffserv domain default
+#
+ip vpn-instance Dadlink
+ ipv4-family
+  route-distinguisher {{ vpn_rd }}:{{ vpn_rd }}
+#
+ip vpn-instance Mgmt
+ ipv4-family
+interface MEth0/0/0
+ ip binding vpn-instance Mgmt
+ ip address {{ mgmt_ip }} {{ mgmt_mask }}
+ip route-static vpn-instance Mgmt 0.0.0.0 0.0.0.0 {{ mgmt_gw }}
+#
+snmp-agent
+snmp-agent local-engineid {{ snmp_engine_id }}
+#
+snmp-agent sys-info version v3
+snmp-agent group v3 dc-admin privacy read-view rd write-view wt notify-view nt
+snmp-agent target-host host-name __targetHost_1_37051 trap address udp-domain {{ snmp_trap_ip }} params securityname Snmpv3mgr v3 privacy
+#
+snmp-agent mib-view included nt iso
+snmp-agent mib-view included rd iso
+snmp-agent mib-view included wt iso
+snmp-agent mib-view included iso-view iso
+snmp-agent trap source MEth0/0/0
+#
+snmp-agent protocol source-interface MEth0/0/0
+undo snmp-agent protocol source-status all-interface
+undo snmp-agent protocol source-status ipv6 all-interface
+#
+undo snmp-agent proxy protocol source-status all-interface
+undo snmp-agent proxy protocol source-status ipv6 all-interface
+#
+snmp-agent trap enable
+#
+lldp enable
+lldp mdn enable
+#
+stelnet server enable
+ssh server rsa-key min-length 3072
+ssh server authentication-type keyboard-interactive enable
+ssh user {{netconf}}
+ssh user {{netconf}} authentication-type password
+ssh user {{netconf}} service-type stelnet
+ssh user {{tffsc}}
+ssh user {{tffsc}} authentication-type all
+ssh user {{tffsc}} service-type stelnet
+ssh user {{tffscro}}
+ssh user {{tffscro}} authentication-type all
+ssh user {{tffscro}} service-type stelnet
+ssh server-source all-interface
+undo ssh ipv6 server-source all-interface
+ssh authorization-type default aaa
+#
+ssh server cipher aes256_gcm aes128_gcm aes256_ctr aes192_ctr aes128_ctr
+ssh server hmac sha2_512 sha2_256
+ssh server key-exchange dh_group_exchange_sha256 curve25519_sha256
+#
+ssh server publickey dsa ecc rsa rsa_sha2_256 rsa_sha2_512
+#
+ssh server dh-exchange min-len 3072
+#
+ssh client first-time enable
+#
+ssh client publickey rsa_sha2_256 rsa_sha2_512
+#
+ssh client cipher aes256_gcm aes128_gcm aes256_ctr aes192_ctr aes128_ctr
+ssh client hmac sha2_512 sha2_256
+ssh client key-exchange dh_group_exchange_sha256 curve25519_sha256
+#
+user-interface maximum-vty 5
+#
+user-interface con 0
+ authentication-mode password
+ set authentication password cipher $1c$Qhl.P^H*$'$nWm6KR3`<Zge(:0o8a%0w.OR.wPk~:cv"xI8A4'/$
+#
+user-interface vty 0 4
+ authentication-mode aaa
+ protocol inbound ssh
+#
+return
