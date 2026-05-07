@@ -50,10 +50,10 @@ function doRender() {
     if (hasErrors) {
       store.renderedOutput = store.templateContent
     } else {
-      // Only pass non-empty values to Nunjucks so unfilled {{ var }} stays in output
+      // Pass placeholder text for unfilled vars so Nunjucks preserves them in output for red highlighting
       const filled = {}
       for (const [k, v] of Object.entries(store.formValues)) {
-        if (v !== '') filled[k] = v
+        filled[k] = v !== '' ? v : '{{ ' + k + ' }}'
       }
       store.renderedOutput = renderTemplate(store.templateContent, filled)
     }
