@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { store, refreshTemplateList, loadTemplate, uploadTemplate, removeTemplate } from '../stores/templateStore.js'
+import { appStore } from '../stores/appStore.js'
 
 const showDeleteConfirm = ref(false)
 const pendingDeleteId = ref(null)
@@ -8,6 +9,10 @@ const uploadError = ref('')
 const isDragOver = ref(false)
 
 const validExtensions = ['.j2', '.txt']
+
+function setMode(mode) {
+  appStore.mode = mode
+}
 
 function handleFileSelect(event) {
   const file = event.target.files[0]
@@ -76,52 +81,73 @@ function cancelDelete() {
 
 <template>
   <header class="toolbar">
-    <div class="toolbar-left">
-      <span class="app-title">KonfigMe</span>
-      <div class="divider" />
-      <div class="select-wrapper">
-        <select
-          class="template-select"
-          :value="store.activeTemplateId ?? ''"
-          @change="onSelectTemplate"
-        >
-          <option value="" disabled>Select a template…</option>
-          <option v-for="tpl in store.templates" :key="tpl.id" :value="tpl.id">
-            {{ tpl.name }}
-          </option>
-        </select>
-        <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <div class="toolbar-row">
+      <div class="toolbar-left">
+        <span class="app-title">KonfigMe</span>
+        <div class="divider" />
+        <div class="mode-tabs">
+          <button
+            class="mode-tab"
+            :class="{ active: appStore.mode === 'template' }"
+            @click="setMode('template')"
+          >
+            Template File
+          </button>
+          <button
+            class="mode-tab"
+            :class="{ active: appStore.mode === 'snippet' }"
+            @click="setMode('snippet')"
+          >
+            Snippet Builder
+          </button>
+        </div>
+        <template v-if="appStore.mode === 'template'">
+          <div class="divider" />
+          <div class="select-wrapper">
+            <select
+              class="template-select"
+              :value="store.activeTemplateId ?? ''"
+              @change="onSelectTemplate"
+            >
+              <option value="" disabled>Select a template…</option>
+              <option v-for="tpl in store.templates" :key="tpl.id" :value="tpl.id">
+                {{ tpl.name }}
+              </option>
+            </select>
+            <svg class="select-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <button
+            v-if="store.activeTemplateId"
+            class="btn btn-danger"
+            @click="confirmDelete"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="btn-icon">
+              <path d="M2.5 4.5h9M5.5 4.5V3a1 1 0 011-1h1a1 1 0 011 1v1.5M3.5 4.5l.5 7.5a1 1 0 001 1h4a1 1 0 001-1l.5-7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Delete
+          </button>
+        </template>
       </div>
-      <button
-        v-if="store.activeTemplateId"
-        class="btn btn-danger"
-        @click="confirmDelete"
-      >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="btn-icon">
-          <path d="M2.5 4.5h9M5.5 4.5V3a1 1 0 011-1h1a1 1 0 011 1v1.5M3.5 4.5l.5 7.5a1 1 0 001 1h4a1 1 0 001-1l.5-7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Delete
-      </button>
-    </div>
 
-    <div class="toolbar-right">
-      <div
-        class="upload-zone"
-        :class="{ 'drag-over': isDragOver }"
-        @drop="handleDrop"
-        @dragover="handleDragOver"
-        @dragleave="handleDragLeave"
-      >
-        <label class="btn btn-upload">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="btn-icon">
-            <path d="M7 2v7M4 4.5L7 2l3 2.5M2.5 9v2a1 1 0 001 1h7a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Upload Template
-          <input type="file" accept=".j2,.txt" hidden @change="handleFileSelect" />
-        </label>
-        <span class="drop-hint">or drop .j2 / .txt</span>
+      <div v-if="appStore.mode === 'template'" class="toolbar-right">
+        <div
+          class="upload-zone"
+          :class="{ 'drag-over': isDragOver }"
+          @drop="handleDrop"
+          @dragover="handleDragOver"
+          @dragleave="handleDragLeave"
+        >
+          <label class="btn btn-upload">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="btn-icon">
+              <path d="M7 2v7M4 4.5L7 2l3 2.5M2.5 9v2a1 1 0 001 1h7a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Upload Template
+            <input type="file" accept=".j2,.txt" hidden @change="handleFileSelect" />
+          </label>
+          <span class="drop-hint">or drop .j2 / .txt</span>
+        </div>
       </div>
     </div>
 
@@ -149,12 +175,6 @@ function cancelDelete() {
 
 <style scoped>
 .toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  padding: 10px 20px;
   background: var(--bg-surface);
   position: relative;
 }
@@ -168,6 +188,15 @@ function cancelDelete() {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
   opacity: 0.3;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 20px;
 }
 
 .toolbar-left,
@@ -197,6 +226,39 @@ function cancelDelete() {
   border-radius: 0.5px;
 }
 
+/* Mode Tabs */
+.mode-tabs {
+  display: flex;
+  background: var(--bg-field);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 1px;
+}
+
+.mode-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 5px 14px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.mode-tab:hover {
+  color: var(--text-secondary);
+}
+
+.mode-tab.active {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Template Controls */
 .select-wrapper {
   position: relative;
   display: flex;
@@ -240,6 +302,7 @@ function cancelDelete() {
   color: var(--text-muted);
 }
 
+/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -266,6 +329,7 @@ function cancelDelete() {
   border-color: var(--accent);
   font-weight: 600;
 }
+
 .btn-upload:hover {
   background: #e09a18;
   box-shadow: 0 0 12px var(--accent-glow);
@@ -276,6 +340,7 @@ function cancelDelete() {
   color: var(--danger);
   border-color: var(--border-default);
 }
+
 .btn-danger:hover {
   background: var(--danger-soft);
   border-color: var(--danger);
@@ -286,11 +351,13 @@ function cancelDelete() {
   color: var(--text-secondary);
   border-color: var(--border-default);
 }
+
 .btn-secondary:hover {
   background: var(--bg-hover);
   color: var(--text-primary);
 }
 
+/* Upload Zone */
 .upload-zone {
   display: flex;
   align-items: center;
@@ -318,10 +385,9 @@ function cancelDelete() {
 .error-banner {
   width: 100%;
   margin: 0;
-  padding: 8px 14px;
+  padding: 8px 20px;
   background: var(--danger-soft);
-  border: 1px solid rgba(234, 67, 53, 0.25);
-  border-radius: var(--radius-sm);
+  border-top: 1px solid rgba(234, 67, 53, 0.25);
   color: var(--danger);
   font-size: 12.5px;
   font-family: var(--font-mono);
@@ -386,6 +452,7 @@ function cancelDelete() {
   color: #fff;
   border-color: var(--danger);
 }
+
 .modal-actions .btn-danger:hover {
   background: #f15b4e;
 }

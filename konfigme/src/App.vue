@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted } from 'vue'
 import TemplateManager from './components/TemplateManager.vue'
-import DynamicForm from './components/DynamicForm.vue'
-import MonacoPreview from './components/MonacoPreview.vue'
+import TemplateWorkspace from './components/TemplateWorkspace.vue'
+import SnippetWorkspace from './components/SnippetWorkspace.vue'
+import { appStore } from './stores/appStore.js'
 import { refreshTemplateList } from './stores/templateStore.js'
 
 onMounted(() => {
@@ -13,8 +14,8 @@ onMounted(() => {
 <template>
   <TemplateManager />
   <div class="main-area">
-    <DynamicForm />
-    <MonacoPreview />
+    <TemplateWorkspace v-if="appStore.mode === 'template'" />
+    <SnippetWorkspace v-else />
   </div>
 </template>
 
