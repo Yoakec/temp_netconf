@@ -1,5 +1,4 @@
 import { openDB } from 'idb'
-import { builtInSnippets } from './snippetLibrary.js'
 
 const DB_NAME = 'konfigme-snippets'
 const DB_VERSION = 1
@@ -27,20 +26,9 @@ function getDb() {
   return dbPromise
 }
 
-export async function seedIfEmpty() {
+export async function getAllSnippets() {
   const db = await getDb()
-  const count = await db.count(STORE_NAME)
-  if (count === 0) {
-    const tx = db.transaction(STORE_NAME, 'readwrite')
-    for (const snippet of builtInSnippets) {
-      await tx.store.add({
-        ...snippet,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      })
-    }
-    await tx.done
-  }
+  return db.getAllFromIndex(STORE_NAME, 'createdAt')
 }
 
 export async function saveSnippet(name, content) {
@@ -67,16 +55,6 @@ export async function saveSnippet(name, content) {
     }
     throw err
   }
-}
-
-export async function getAllSnippets() {
-  const db = await getDb()
-  return db.getAllFromIndex(STORE_NAME, 'createdAt')
-}
-
-export async function getSnippet(id) {
-  const db = await getDb()
-  return db.get(STORE_NAME, id)
 }
 
 export async function updateSnippet(id, name, content) {

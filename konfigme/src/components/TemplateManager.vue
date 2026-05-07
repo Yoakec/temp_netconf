@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { store, refreshTemplateList, loadTemplate, uploadTemplate, removeTemplate } from '../stores/templateStore.js'
-import { appStore } from '../stores/appStore.js'
+import { appStore, toggleTheme } from '../stores/appStore.js'
 
 const showDeleteConfirm = ref(false)
 const pendingDeleteId = ref(null)
@@ -152,6 +152,20 @@ function cancelDelete() {
           <span class="drop-hint">or drop .j2 / .txt</span>
         </div>
       </div>
+
+      <button
+        class="theme-toggle"
+        :title="appStore.theme === 'dark' ? 'Switch to light' : 'Switch to dark'"
+        @click="toggleTheme"
+      >
+        <svg v-if="appStore.theme === 'dark'" width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
     </div>
 
     <p v-if="uploadError" class="error-banner">{{ uploadError }}</p>
@@ -206,6 +220,25 @@ function cancelDelete() {
 .toolbar-right.invisible {
   visibility: hidden;
   pointer-events: none;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border-default);
+  color: var(--text-muted);
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
 }
 
 .toolbar-left,

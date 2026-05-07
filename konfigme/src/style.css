@@ -1,4 +1,4 @@
-:root {
+[data-theme="dark"] {
   --bg-root: #0a0a0c;
   --bg-surface: #111114;
   --bg-elevated: #18181e;
@@ -27,6 +27,28 @@
   --transition-smooth: 200ms ease;
 }
 
+[data-theme="light"] {
+  --bg-root: #f3f3f7;
+  --bg-surface: #fafafc;
+  --bg-elevated: #ffffff;
+  --bg-field: #eeeef3;
+  --bg-hover: #e4e4ec;
+  --border-default: #d4d4dc;
+  --border-strong: #b0b0ba;
+  --border-accent: #b8730a;
+  --text-primary: #1a1a24;
+  --text-secondary: #5c5c6a;
+  --text-muted: #90909e;
+  --accent: #b8730a;
+  --accent-soft: rgba(184, 115, 10, 0.10);
+  --accent-glow: rgba(184, 115, 10, 0.20);
+  --success: #1e8e3e;
+  --success-soft: rgba(30, 142, 62, 0.10);
+  --danger: #d93025;
+  --danger-soft: rgba(217, 48, 37, 0.10);
+  --info: #1967d2;
+}
+
 *,
 *::before,
 *::after {
@@ -47,7 +69,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+[data-theme="dark"] body {
   background-image:
     radial-gradient(ellipse at 20% 50%, rgba(212, 136, 15, 0.015) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 50%, rgba(138, 180, 248, 0.01) 0%, transparent 60%);

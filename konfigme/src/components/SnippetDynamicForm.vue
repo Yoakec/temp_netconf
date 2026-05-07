@@ -1,12 +1,25 @@
 <script setup>
-import { snippetStore, updateSnippetFormValue } from '../stores/snippetStore.js'
+import { snippetStore, updateSnippetFormValue, clearAllFormValues } from '../stores/snippetStore.js'
 </script>
 
 <template>
   <aside class="form-panel">
     <div class="panel-header">
       <span class="header-label">Variables</span>
-      <span v-if="snippetStore.variables.length" class="var-count">{{ snippetStore.variables.length }}</span>
+      <div class="header-right">
+        <button
+          v-if="snippetStore.variables.length"
+          class="clear-btn"
+          title="Clear all values"
+          @click="clearAllFormValues"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <span v-if="snippetStore.variables.length" class="var-count">{{ snippetStore.variables.length }}</span>
+      </div>
     </div>
 
     <p v-if="!snippetStore.selectedIds.size" class="empty-state">
@@ -78,6 +91,30 @@ import { snippetStore, updateSnippetFormValue } from '../stores/snippetStore.js'
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--text-muted);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clear-btn {
+  background: none;
+  border: 1px solid var(--border-default);
+  color: var(--text-muted);
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all var(--transition-fast);
+}
+
+.clear-btn:hover {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .var-count {
@@ -156,9 +193,7 @@ import { snippetStore, updateSnippetFormValue } from '../stores/snippetStore.js'
   transition: background var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
-.indicator.empty {
-  background: var(--border-strong);
-}
+.indicator.empty { background: var(--border-strong); }
 
 .indicator.filled {
   background: var(--success);

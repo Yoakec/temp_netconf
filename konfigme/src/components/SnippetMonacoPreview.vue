@@ -2,6 +2,7 @@
 import { ref, watch, onMounted, onBeforeUnmount, shallowRef } from 'vue'
 import * as monaco from 'monaco-editor'
 import { snippetStore } from '../stores/snippetStore.js'
+import { appStore } from '../stores/appStore.js'
 
 const container = ref(null)
 let editor = null
@@ -13,7 +14,7 @@ onMounted(() => {
   editor = monaco.editor.create(container.value, {
     value: '',
     language: 'plaintext',
-    theme: 'vs-dark',
+    theme: appStore.theme === 'dark' ? 'vs-dark' : 'vs',
     readOnly: true,
     minimap: { enabled: false },
     lineNumbers: 'on',
@@ -41,6 +42,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (editor) editor.dispose()
   if (copyTimer) clearTimeout(copyTimer)
+})
+
+watch(() => appStore.theme, (t) => {
+  if (editor) monaco.editor.setTheme(t === 'dark' ? 'vs-dark' : 'vs')
 })
 
 watch(() => snippetStore.renderedOutput, (newVal) => {

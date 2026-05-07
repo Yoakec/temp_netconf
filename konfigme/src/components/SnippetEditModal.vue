@@ -2,6 +2,7 @@
 import { ref, watch, onBeforeUnmount, nextTick } from 'vue'
 import * as monaco from 'monaco-editor'
 import { editSnippet } from '../stores/snippetStore.js'
+import { appStore } from '../stores/appStore.js'
 
 const props = defineProps({
   snippet: { type: Object, default: null },
@@ -27,7 +28,7 @@ watch(() => props.snippet, async (snip) => {
     editor = monaco.editor.create(container.value, {
       value: snip.content,
       language: 'plaintext',
-      theme: 'vs-dark',
+      theme: appStore.theme === 'dark' ? 'vs-dark' : 'vs',
       minimap: { enabled: false },
       lineNumbers: 'on',
       scrollBeyondLastLine: false,
@@ -43,6 +44,10 @@ watch(() => props.snippet, async (snip) => {
 
 onBeforeUnmount(() => {
   if (editor) editor.dispose()
+})
+
+watch(() => appStore.theme, (t) => {
+  if (editor) monaco.editor.setTheme(t === 'dark' ? 'vs-dark' : 'vs')
 })
 
 async function handleSave() {
