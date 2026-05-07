@@ -23,5 +23,8 @@ onMounted(() => {
   flex: 1;
   display: flex;
   min-height: 0;
+  border-top: 1px solid var(--border-default);
+  background:
+    linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-root) 100%);
 }
 </style>

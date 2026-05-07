@@ -1,3 +1,32 @@
+:root {
+  --bg-root: #0a0a0c;
+  --bg-surface: #111114;
+  --bg-elevated: #18181e;
+  --bg-field: #1e1e26;
+  --bg-hover: #24242e;
+  --border-default: #262630;
+  --border-strong: #353540;
+  --border-accent: #d4880f;
+  --text-primary: #e4e4eb;
+  --text-secondary: #9494a0;
+  --text-muted: #585866;
+  --accent: #d4880f;
+  --accent-soft: rgba(212, 136, 15, 0.12);
+  --accent-glow: rgba(212, 136, 15, 0.25);
+  --success: #34a853;
+  --success-soft: rgba(52, 168, 83, 0.15);
+  --danger: #ea4335;
+  --danger-soft: rgba(234, 67, 53, 0.15);
+  --info: #8ab4f8;
+  --font-ui: 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --transition-fast: 120ms ease;
+  --transition-smooth: 200ms ease;
+}
+
 *,
 *::before,
 *::after {
@@ -8,15 +37,53 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: #1e1e1e;
-  color: #ccc;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
+  background: var(--bg-root);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(212, 136, 15, 0.015) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(138, 180, 248, 0.01) 0%, transparent 60%);
 }
 
 #app {
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+input, select, button, textarea {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--border-accent);
+  outline-offset: 1px;
 }
