@@ -131,7 +131,10 @@ function cancelDelete() {
         </template>
       </div>
 
-      <div v-if="appStore.mode === 'template'" class="toolbar-right">
+      <div
+        class="toolbar-right"
+        :class="{ invisible: appStore.mode !== 'template' }"
+      >
         <div
           class="upload-zone"
           :class="{ 'drag-over': isDragOver }"
@@ -194,9 +197,15 @@ function cancelDelete() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 12px;
   padding: 10px 20px;
+  overflow: hidden;
+}
+
+.toolbar-right.invisible {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .toolbar-left,
