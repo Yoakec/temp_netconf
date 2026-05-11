@@ -1,0 +1,3 @@
+{
+  "Syslog_日志": "!\nfeature syslog\nlogging server {{ syslog_server_1 }} 5 facility {{ syslog_facility }} use-vrf {{ mgmt_vrf }}\nlogging server {{ syslog_server_2 }} 5 facility {{ syslog_facility }} use-vrf {{ mgmt_vrf }}\nlogging timestamp milliseconds\n!"
+}

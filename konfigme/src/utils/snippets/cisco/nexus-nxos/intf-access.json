@@ -1,0 +1,3 @@
+{
+  "Interface_Access": "!\ninterface {{ access_interface }}\n description {{ access_desc }}\n switchport mode access\n switchport access vlan {{ access_vlan }}\n spanning-tree port type edge\n!"
+}

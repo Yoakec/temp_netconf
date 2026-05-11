@@ -1,0 +1,3 @@
+{
+  "STP_生成树": "!\nspanning-tree mode rapid-pvst\nspanning-tree vlan {{ stp_instance_vlans }} priority 16384\nspanning-tree port type edge bpduguard default\n!"
+}

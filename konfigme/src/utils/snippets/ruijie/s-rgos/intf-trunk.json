@@ -1,0 +1,3 @@
+{
+  "Interface_Trunk": "!\ninterface {{ trunk_interface }}\n description {{ trunk_desc }}\n switchport mode trunk\n switchport trunk allowed vlan add {{ trunk_allowed_vlans }}\n switchport trunk allowed vlan remove 1\n!"
+}

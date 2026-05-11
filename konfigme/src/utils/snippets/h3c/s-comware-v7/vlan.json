@@ -1,0 +1,3 @@
+{
+  "VLAN_规划": "!\nvlan {{ vlan_start }} to {{ vlan_end }}\n!\nvlan {{ prod_vlan }}\n description Production_Network\n!\nvlan {{ guest_vlan }}\n description Guest_Network\n!\nvlan {{ voice_vlan }}\n description Voice_Network\n!"
+}

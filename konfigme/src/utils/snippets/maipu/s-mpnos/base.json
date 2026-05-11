@@ -1,0 +1,3 @@
+{
+  "Base_基础配置": "!\nhostname {{ hostname }}\n!\nclock timezone BJ add 08:00:00\n!\nusername {{ admin_user }} privilege 15 password {{ admin_pass }}\nusername {{ oper_user }} privilege 5 password {{ oper_pass }}\nusername {{ escape_user }} privilege 15 password {{ escape_pass }}\n!\nno telnet server enable\n!\nlldp enable\nspanning-tree\nspanning-tree mode {{ stp_mode }}\npassword-recovery enable\n!\nvlan {{ mgmt_vlan }}\n name MGMT_Management\n!\ninterface vlan {{ mgmt_vlan }}\n ip address {{ mgmt_ip }} {{ mgmt_mask }}\n!"
+}

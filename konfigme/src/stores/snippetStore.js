@@ -1,6 +1,6 @@
 import { reactive, computed, watch } from 'vue'
 import { getAllSnippets, saveSnippet, updateSnippet, deleteSnippet } from '../utils/snippetDb.js'
-import { snippetTree } from '../utils/snippetLibrary.js'
+import { snippetTree } from '../utils/snippets/index.js'
 import { parseVariables } from '../utils/parser.js'
 import { renderTemplate } from '../utils/renderer.js'
 

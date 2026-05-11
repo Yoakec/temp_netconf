@@ -1,0 +1,3 @@
+{
+  "OSPF_路由": "!\nfeature ospf\n!\nrouter ospf {{ ospf_process_id }}\n router-id {{ ospf_router_id }}\n!\ninterface {{ ospf_interface }}\n ip ospf network point-to-point\n ip ospf hello-interval {{ ospf_hello }}\n ip ospf dead-interval {{ ospf_dead }}\n ip ospf cost {{ ospf_cost }}\n ip router ospf {{ ospf_process_id }} area {{ ospf_area }}\n!"
+}

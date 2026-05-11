@@ -1,0 +1,3 @@
+{
+  "SSH_远程管理": "!\nfeature ssh\nfeature telnet\n!\nssh key rsa 2048 force\n!\nline vty\n session-timeout 60\n exec-timeout 60\n!\nip access-list {{ ssh_acl }}\n 10 permit tcp {{ ssh_src_net }} {{ ssh_src_mask }} any eq 22\n!"
+}

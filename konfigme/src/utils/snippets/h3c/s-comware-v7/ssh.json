@@ -1,0 +1,3 @@
+{
+  "SSH_远程管理": "!\nssh server enable\nsftp server enable\n!\npublic-key local create rsa\n!\nssh user {{ admin_user }} service-type stelnet sftp authentication-type password\n!\nssh server acl {{ ssh_acl }}\n!"
+}

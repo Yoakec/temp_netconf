@@ -1,0 +1,3 @@
+{
+  "BGP_路由": "!\nrouter bgp {{ local_as }}\n bgp router-id {{ bgp_router_id }}\n maximum-paths {{ bgp_max_paths }}\n !\n neighbor {{ peer_ip_1 }} remote-as {{ neighbor_as_1 }}\n neighbor {{ peer_ip_1 }} description {{ peer_desc_1 }}\n neighbor {{ peer_ip_1 }} update-source loopback 0\n !\n neighbor {{ peer_ip_2 }} remote-as {{ neighbor_as_2 }}\n neighbor {{ peer_ip_2 }} description {{ peer_desc_2 }}\n neighbor {{ peer_ip_2 }} update-source loopback 0\n !\n address-family ipv4 unicast\n  network {{ bgp_network_1 }} mask {{ bgp_mask_1 }}\n  network {{ bgp_network_2 }} mask {{ bgp_mask_2 }}\n  neighbor {{ peer_ip_1 }} activate\n  neighbor {{ peer_ip_2 }} activate\n!"
+}

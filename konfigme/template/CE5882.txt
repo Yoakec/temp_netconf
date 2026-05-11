@@ -1,0 +1,184 @@
+
+#1号机配置
+stack
+stack member 1 priority 200
+stack member 1 domain 8
+interface stack-port 1/1
+port member-group interface 100G1/0/5
+y
+port member-group interface 100G1/0/6
+y
+qu
+com
+qu
+sa
+#2号机配置
+stack
+stack member 1 priority 180
+stack member 1 domain 8
+stack member 1 renumber 2 inherit-config
+y
+
+interface stack-port 1/2
+port member-group interface 100G1/0/5
+y
+port member-group interface 100G1/0/6
+y
+qu
+com
+qu
+
+sa
+interface 40G1/0/5
+description stack to 40G2/0/5
+
+interface 40G1/0/6
+description stack to 40G2/0/6
+
+#
+interface 40G2/0/5
+description stack to 40G1/0/5
+interface 40G2/0/6
+description stack to 40G1/0/6
+#
+
+vlan batch 500 501
+ip vpn-instance mgmt
+ipv4-family
+#
+interface METH 0/0/0
+ip binding vpn-instance mgmt
+ip address 192.172.36.45 255.255.254.0
+#
+ip route-static vpn-instance mgmt 0.0.0.0 0 192.172.36.1
+#
+sysname {{sysname}}}
+#
+telnet server disable
+y
+telnet ipv6 server disable
+y
+lldp enable
+#
+info-center loghost 192.168.8.145 vpn-instance mgmt level notification facility local5 local-time
+
+info-center loghost 192.168.8.250 vpn-instance mgmt level notification facility local5 local-time
+#
+clock timezone beijing add 8
+
+
+#
+stp enable
+stp bpdu-protection
+#
+stelnet server enable
+#
+aaa
+local-user policy security-enhance
+local-user tfffsc password irreversible-cipher Jswd50x@2063
+local-user tfffsc service-type ssh
+local-user tfffsc level 3
+local-user tfffscro password irreversible-cipher Jswd50x@2063
+local-user tfffscro service-type ssh
+local-user tfffsc level 3
+undo local-user policy security-enhance
+undo local-user policy password change
+#
+ssh user tfffsc
+ssh user tfffsc authentication-type all
+ssh user tfffsc service-type stelnet
+ssh user tfffscro
+ssh user tfffscro authentication-type all
+ssh user tfffscro service-type stelnet
+ssh authorization-type default aaa
+#
+rsa local-key-pair create
+y
+ssh client  first-time enable
+ssh server-source all-interface
+y
+
+ssh server publickey dsa ecc rsa rsa_sha2_256 rsa_sha2_512
+#密级更改
+
+ntp unicast-server 192.172.36.1 vpn-instance mgmt source-interface  MEth  0/0/0
+hwtacacs server template aas
+hwtacacs server authentication 192.168.8.100 vpn-instance mgmt
+hwtacacs server authorization 192.168.8.100 vpn-instance mgmt
+hwtacacs server accounting 192.168.8.100 vpn-instance mgmt
+hwtacacs server shared-key Tatacs@123
+hwtacacs server user-name domain-excluded
+#
+aaa
+authentication-scheme tac1
+authentication-mode hwtacacs local
+
+accounting-scheme tac1
+
+authorization-scheme tac1
+authorization-mode hwtacacs local
+authorization-cmd 0 hwtacacs local
+authorization-cmd 1 hwtacacs local
+authorization-cmd 2 hwtacacs local
+authorization-cmd 3 hwtacacs local
+authorization-cmd 4 hwtacacs local
+authorization-cmd 5 hwtacacs local
+authorization-cmd 6 hwtacacs local
+authorization-cmd 7 hwtacacs local
+authorization-cmd 8 hwtacacs local
+authorization-cmd 9 hwtacacs local
+authorization-cmd 10 hwtacacs local
+authorization-cmd 11 hwtacacs local
+authorization-cmd 12 hwtacacs local
+authorization-cmd 13 hwtacacs local
+authorization-cmd 14 hwtacacs local
+authorization-cmd 15 hwtacacs local
+
+domain default_admin
+authentication-scheme tac1
+authorization-scheme tac1
+accounting-scheme tac1
+hwtacacs server aas
+#
+acl name ssh-vty advance
+rule permit ip vpn-instance mgmt source 192.168.8.127 0
+rule permit ip vpn-instance mgmt source 192.168.8.134 0
+rule permit ip vpn-instance mgmt source 192.168.8.143 0
+rule permit ip vpn-instance mgmt source 192.168.8.218 0
+rule permit ip vpn-instance mgmt source 192.168.8.102 0
+rule permit ip vpn-instance mgmt source 192.168.8.191 0
+rule permit ip vpn-instance mgmt source 192.168.8.192 0
+rule permit ip vpn-instance mgmt source 192.168.8.193 0
+rule permit ip vpn-instance mgmt source 192.168.8.194 0
+rule permit ip vpn-instance mgmt source 192.172.16.0 0.0.0.255
+quit
+#
+
+#
+user-interface vty 0 4
+authentication-mode aaa
+user privilege level 3
+protocol inbound ssh
+#
+
+interface  range  10ge 1/0/1  to 10GE  1/0/48
+undo port trunk allow-pass vlan 1
+port link-type trunk
+port trunk pvid vlan 500
+p t a v 500
+stp edged-port enable
+
+interface Eth-Trunk100
+port link-type trunk
+undo port trunk allow-pass vlan 1
+port trunk allow-pass vlan 500
+trunkport  100g 1/0/1
+trunkport  100g 1/0/2
+mode lacp-s
+
+
+
+
+
+
+

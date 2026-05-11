@@ -1,0 +1,3 @@
+{
+  "Interface_Hybrid": "!\ninterface {{ hybrid_interface }}\n description {{ hybrid_desc }}\n port link-type hybrid\n port hybrid pvid vlan {{ hybrid_pvid }}\n port hybrid tagged vlan {{ hybrid_tagged_vlans }}\n port hybrid untagged vlan {{ hybrid_untagged_vlans }}\n undo port hybrid vlan 1\n!"
+}

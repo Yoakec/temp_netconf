@@ -1,0 +1,3 @@
+{
+  "SNMP_网管": "!\nsnmp-server enable\nsnmp-server community ro_scrcu rw\nsnmp-server host {{ snmp_trap_host }} traps version 2c ro_scrcu\nsnmp-server location {{ snmp_location }}\nsnmp-server contact {{ snmp_contact }}\n!"
+}

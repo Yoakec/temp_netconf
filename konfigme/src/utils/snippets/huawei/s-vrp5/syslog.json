@@ -1,0 +1,3 @@
+{
+  "Syslog_日志": "!\ninfo-center enable\ninfo-center loghost source Vlanif{{ mgmt_vlan }}\ninfo-center loghost {{ syslog_server_1 }} facility {{ syslog_facility }}\ninfo-center loghost {{ syslog_server_2 }} facility {{ syslog_facility }}\ninfo-center timestamp log date precision-time millisecond\ninfo-center timestamp trap date precision-time millisecond\n!"
+}

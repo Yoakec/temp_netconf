@@ -1,0 +1,3 @@
+{
+  "STP_生成树": "!\nstp region-configuration\n region-name {{ stp_region }}\n instance {{ stp_instance }} vlan {{ stp_instance_vlans }}\n active region-configuration\n!\nstp instance {{ stp_instance }} priority 16384\nstp bpdu-protection\n!"
+}

@@ -1,0 +1,3 @@
+{
+  "Stack_堆叠": "!\nstack\n stack member {{ stack_member_1 }} priority 200\n stack member {{ stack_member_1 }} domain {{ stack_domain }}\n!\ninterface stack-port {{ stack_member_1 }}/1\n port member-group interface {{ stack_phy_if_1_1 }} to {{ stack_phy_if_1_2 }}\n!\ninterface stack-port {{ stack_member_2 }}/1\n port member-group interface {{ stack_phy_if_2_1 }} to {{ stack_phy_if_2_2 }}\n!"
+}

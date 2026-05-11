@@ -1,0 +1,3 @@
+{
+  "OSPF_路由": "!\nospf {{ ospf_process_id }} router-id {{ ospf_router_id }}\n area {{ ospf_area }}\n  network {{ ospf_net_1 }} {{ ospf_mask_1 }}\n  network {{ ospf_net_2 }} {{ ospf_mask_2 }}\n!\ninterface {{ ospf_interface }}\n ospf network-type p2p\n ospf timer hello {{ ospf_hello }} dead {{ ospf_dead }}\n ospf cost {{ ospf_cost }}\n!"
+}

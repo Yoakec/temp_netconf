@@ -1,0 +1,3 @@
+{
+  "SNMP_网管": "!\nsnmp-agent\nsnmp-agent sys-info version v2c\nsnmp-agent community read cipher ro_scrcu mib-view {{ snmp_view }}\nsnmp-agent mib-view included {{ snmp_view }} iso\nsnmp-agent trap enable\nsnmp-agent target-host trap address udp-domain {{ snmp_trap_host }} params securityname cipher ro_scrcu v2c\n!"
+}

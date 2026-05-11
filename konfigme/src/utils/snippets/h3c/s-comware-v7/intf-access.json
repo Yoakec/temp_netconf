@@ -1,0 +1,3 @@
+{
+  "Interface_Access": "!\ninterface {{ access_interface }}\n description {{ access_desc }}\n port link-type access\n port access vlan {{ access_vlan }}\n stp edged-port enable\n port-security enable\n port-security max-mac-count {{ access_max_mac }}\n!"
+}

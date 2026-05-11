@@ -1,0 +1,3 @@
+{
+  "VRRP_网关冗余": "!\nfeature hsrp\n!\ninterface Vlan{{ vrrp_vlan }}\n ip address {{ vrrp_vip }} {{ vrrp_mask }}\n hsrp version 2\n hsrp {{ vrrp_group }}\n  ip {{ vrrp_vip }}\n  priority {{ vrrp_priority }}\n  preempt delay minimum {{ vrrp_preempt_delay }}\n  authentication text {{ vrrp_auth_key }}\n!"
+}

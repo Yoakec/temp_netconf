@@ -1,0 +1,3 @@
+{
+  "Mgmt_带外管理": "!\nip vpn-instance {{ mgmt_vrf }}\n route-distinguisher {{ mgmt_rd }}\n!\ninterface {{ mgmt_interface }}\n ip binding vpn-instance {{ mgmt_vrf }}\n ip address {{ oob_mgmt_ip }} {{ oob_mgmt_mask }}\n!\nip route-static vpn-instance {{ mgmt_vrf }} 0.0.0.0 0.0.0.0 {{ oob_gateway }}\n!"
+}

@@ -1,0 +1,3 @@
+{
+  "Stack_堆叠": "!\nstack\n stack-port 1/1\n  port interface tengigabitethernet 1/1/0 to tengigabitethernet 1/1/2\n !\n stack-port 2/1\n  port interface tengigabitethernet 2/1/0 to tengigabitethernet 2/1/2\n!\nstack member 1 priority 200\nstack member 2 priority 180\n!"
+}

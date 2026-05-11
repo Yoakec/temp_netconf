@@ -1,0 +1,3 @@
+{
+  "Mgmt_带外管理": "!\nip vrf {{ mgmt_vrf }}\n!\ninterface {{ mgmt_interface }}\n ip vrf forwarding {{ mgmt_vrf }}\n ip address {{ oob_mgmt_ip }} {{ oob_mgmt_mask }}\n!\nip route vrf {{ mgmt_vrf }} 0.0.0.0 0.0.0.0 {{ oob_gateway }}\n!"
+}

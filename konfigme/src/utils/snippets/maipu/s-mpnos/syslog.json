@@ -1,0 +1,3 @@
+{
+  "Syslog_日志": "!\nlogging on\nlogging source-interface vlan {{ mgmt_vlan }}\nlogging server {{ syslog_server_1 }} facility {{ syslog_facility }}\nlogging server {{ syslog_server_2 }} facility {{ syslog_facility }}\nservice timestamps log datetime msec\n!"
+}

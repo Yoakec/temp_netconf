@@ -1,0 +1,3 @@
+{
+  "STP_生成树": "!\nspanning-tree mst configuration\n name {{ stp_region }}\n revision {{ stp_revision }}\n instance {{ stp_instance }} vlan {{ stp_instance_vlans }}\n!\nspanning-tree mst {{ stp_instance }} priority 16384\nspanning-tree portfast bpduguard default\n!"
+}

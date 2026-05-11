@@ -1,0 +1,3 @@
+{
+  "VLAN_规划": "!\nvlan database\n vlan {{ vlan_start }}-{{ vlan_end }}\n!\nvlan {{ prod_vlan }}\n name Production_Network\n!\nvlan {{ guest_vlan }}\n name Guest_Network\n!\nvlan {{ voice_vlan }}\n name Voice_Network\n!"
+}

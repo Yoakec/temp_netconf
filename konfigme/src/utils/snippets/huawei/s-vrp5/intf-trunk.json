@@ -1,0 +1,3 @@
+{
+  "Interface_Trunk": "!\ninterface {{ trunk_interface }}\n description {{ trunk_desc }}\n port link-type trunk\n port trunk allow-pass vlan {{ trunk_allowed_vlans }}\n undo port trunk allow-pass vlan 1\n!"
+}

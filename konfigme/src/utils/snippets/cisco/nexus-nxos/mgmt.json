@@ -1,0 +1,3 @@
+{
+  "Mgmt_带外管理": "!\nvrf context {{ mgmt_vrf }}\n!\ninterface {{ mgmt_interface }}\n vrf member {{ mgmt_vrf }}\n ip address {{ oob_mgmt_ip }} {{ oob_mgmt_mask }}\n no shutdown\n!\nip route 0.0.0.0/0 {{ oob_gateway }} vrf {{ mgmt_vrf }}\n!"
+}

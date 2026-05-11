@@ -1,0 +1,3 @@
+{
+  "Stack_堆叠": "!\nstack slot 0 priority 200\nstack slot 1 priority 180\n!\nstack timer mac-address switch-delay 300\n!\ninterface Stack-Port1/1\n port interface XGigabitEthernet1/1/0 to XGigabitEthernet1/1/2 enable\n!\ninterface Stack-Port2/1\n port interface XGigabitEthernet2/1/0 to XGigabitEthernet2/1/2 enable\n!"
+}

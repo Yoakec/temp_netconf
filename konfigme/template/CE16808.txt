@@ -1,0 +1,92 @@
+#
+install feature-software WEAKEA
+
+#
+sysname {{sysname}}
+#
+#
+undo ftp server source all-interface
+undo ftp ipv6 server source all-interface
+#
+ntp server source-interface all disable
+ntp ipv6 server source-interface all disable
+#
+telnet server disable
+y
+telnet ipv6 server disable
+y
+undo dhcp enable
+y
+ntp ipv6 server disable
+y
+stelnet server enable
+lldp enable
+stp enable
+stp bpdu-protection
+stp tc-protection
+#
+route loop-detect ospf enable
+#               
+aaa
+ local-user {{name}} password irreversible-cipher  {{password}}
+ local-user {{name}} service-type ssh
+y
+ local-user {{name}} level 3
+y
+local-user {{name}} password-force-change disable
+#
+user-interface vty 0 4
+ authentication-mode aaa
+ user privilege level 3
+y
+ idle-timeout 20 0
+ protocol inbound ssh
+
+
+user-interface console 0
+ undo authentication-mode
+ y
+commit
+ 
+#
+ssh user {{name}}
+ssh user {{name}} authentication-type all
+ssh user {{name}} service-type stelnet
+ssh authorization-type default aaa
+ssh server dh-exchange min-len 1024
+ssh client first-time enable
+ssh server-source all-interface
+y
+rsa local-key-pair create
+
+y
+ssh server publickey dsa ecc rsa rsa_sha2_256 rsa_sha2_512
+#
+ip vpn-instance MGMT
+ipv4-family
+#
+int MEth 0/0/0
+ip binding vpn-instance MGMT
+ip address {{mgmt_address}} {{mgmt_mask}}}
+#
+ip route-static vpn-instance MGMT 0.0.0.0 0 {{mgmt_gateway}}
+#
+clock timezone BeiJing add 08:00:00
+ntp ipv6 server disable
+y
+ntp unicast-server  {{mgmt_gateway}}
+#
+snmp-agent sys-info version v2c
+snmp-agent protocol source-interface MEth0/0/0
+snmp-agent protocol source-status all-interface
+snmp-agent mib-view included nt iso
+snmp-agent mib-view included rd iso
+snmp-agent mib-view included wt iso
+snmp-agent mib-view included iso-view iso
+snmp-agent community write cipher ro_scrcu
+snmp-agent community read cipher ro_scrcu
+
+
+info-center loghost 192.168.8.145 facility local5 local-time
+info-center loghost 192.168.8.250 facility local5 local-time
+#
